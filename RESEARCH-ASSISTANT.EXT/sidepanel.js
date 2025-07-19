@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function summarizeText() {
     try {
+        // Show loading spinner
+        document.getElementById('loadingSpinner').style.display = 'block';
+        document.getElementById('results').innerHTML = '';
+
         const [tab] = await chrome.tabs.query({ active:true, currentWindow: true});
         const [{ result }] = await chrome.scripting.executeScript({
             target: {tabId: tab.id},
@@ -19,6 +23,7 @@ async function summarizeText() {
         });
 
         if (!result) {
+            hideLoadingSpinner();
             showResult('Please select some text first');
             return;
         }
@@ -34,11 +39,17 @@ async function summarizeText() {
         }
 
         const text = await response.text();
+        hideLoadingSpinner();
         showResult(text.replace(/\n/g,'<br>'));
 
     } catch (error) {
+        hideLoadingSpinner();
         showResult('Error: ' + error.message);
     }
+}
+
+function hideLoadingSpinner() {
+    document.getElementById('loadingSpinner').style.display = 'none';
 }
 
 
