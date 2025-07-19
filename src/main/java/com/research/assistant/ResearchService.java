@@ -9,6 +9,13 @@ public class ResearchService {
         // Build the prompt
         String prompt = buildPrompt(request);
         // Query the AI Model API
+        Map<String, Object> requestBody = Map.of(
+                "contents", new Object[] {
+                        Map.of("parts", new Object[]{
+                                Map.of("text", prompt)
+                        })
+                }
+        );
         // Parse the response
         // Return response
     }
