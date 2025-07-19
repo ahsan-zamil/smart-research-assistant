@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Research Assistant</title>
+    <link rel="stylesheet" href="sidepanel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2><div class="logo">R</div> Research Assistant</h2>
+        </div>
+
+        <div class="actions">
+            <button id="summarizeBtn">
+                <i class="fas fa-compress-alt"></i>
+                Summarize
+            </button>
+        </div>
+
+        <div class="notes">
+            <h3><i class="fas fa-pencil-alt"></i> Research Notes</h3>
+            <textarea id="notes" placeholder="Take your research notes here..."></textarea>
+            <button id="saveNotesBtn">
+                <i class="fas fa-save"></i>
+                Save Notes
+            </button>
+        </div>
+
+        <div id="results">
+            <!-- Results will be displayed here -->
+        </div>
+    </div>
+    <script src="sidepanel.js"></script>
+</body>
+</html>
