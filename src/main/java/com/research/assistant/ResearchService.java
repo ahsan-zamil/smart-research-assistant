@@ -35,9 +35,36 @@ public class ResearchService {
                         })
                 }
         );
+
+        String response = webClient.post()
+                .uri(geminiApiUrl + geminiApiKey)
+                .bodyValue(requestBody)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
         // Parse the response
         // Return response
+
+        return extractTextFromResponse(response);
     }
+
+    private String extractTextFromResponse(String response) {
+        try {
+            GeminiResponse geminiResponse = objectMapper.readValue(response, GeminiResponse.class);
+            if (geminiResponse.getCandidates() != null && !geminiResponse.getCandidates().isEmpty()) {
+                GeminiResponse.Candidate firstCandidate = geminiResponse.getCandidates().get(0);
+                if (firstCandidate.getContent() != null &&
+                        firstCandidate.getContent().getParts() != null &&
+                        !firstCandidate.getContent().getParts().isEmpty()) {
+                    return firstCandidate.getContent().getParts().get(0).getText();
+                }
+            }
+            return "No content found in response";
+        } catch (Exception e) {
+            return "Error Parsing: " + e.getMessage();
+        }
+    }
+
     private String buildPrompt(ResearchRequest request) {
         StringBuilder prompt = new StringBuilder();
         switch (request.getOperation()) {
