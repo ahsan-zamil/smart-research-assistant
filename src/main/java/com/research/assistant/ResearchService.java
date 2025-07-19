@@ -7,6 +7,7 @@ public class ResearchService {
     public String processContent(ResearchRequest request) {
 
         // Build the prompt
+        String prompt = buildPrompt(request);
         // Query the AI Model API
         // Parse the response
         // Return response
