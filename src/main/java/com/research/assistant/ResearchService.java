@@ -1,16 +1,35 @@
 package com.research.assistant;
 
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.Map;
 
 @Service
 public class ResearchService {
+    @Value("${gemini.api.url}")
+    private String geminiApiUrl;
+
+    @Value("${gemini.api.key}")
+    private String geminiApiKey;
+
+    private final WebClient webClient;
+    private final ObjectMapper objectMapper;
+
+    public ResearchService(WebClient.Builder webClientBuilder, ObjectMapper objectMapper) {
+        this.webClient = webClientBuilder.build();
+        this.objectMapper = objectMapper;
+    }
     public String processContent(ResearchRequest request) {
 
         // Build the prompt
         String prompt = buildPrompt(request);
         // Query the AI Model API
         Map<String, Object> requestBody = Map.of(
-                "contents", new Object[] {
+                "contents", new Object[]{
                         Map.of("parts", new Object[]{
                                 Map.of("text", prompt)
                         })

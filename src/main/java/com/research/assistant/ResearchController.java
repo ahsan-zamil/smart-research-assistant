@@ -16,4 +16,4 @@ public class ResearchController {
         String result = researchService.processContent(request);
         return ResponseEntity.ok(result);
     }
-}
+    }
